@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Virtual Office — Set Up Now | OffShore CompanyCorp</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#C91F26;--red-dark:#a3181e;--red-soft:#fdecec;
+  --navy:#0A3161;--ink:#1f2733;--muted:#6b7280;--line:#e5e7eb;
+  --bg:#f4f5f7;--card:#fff;--green:#12b76a;--purple:#8a56d6;--blue:#2f6fed;
+  --shadow:0 8px 30px rgba(16,24,40,.08);--radius:8px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.hidden{display:none !important}
+
+.topbar{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.topbar-inner{max-width:1280px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:20px}
+.logo{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.logo-mark{width:44px;height:44px}
+.logo-text{line-height:1.05}
+.logo-text b{display:block;font-weight:800;font-size:17px;color:#111;letter-spacing:.2px}
+.logo-text span{display:block;font-size:12px;color:#555;font-weight:600}
+.divider-v{width:1px;height:34px;background:var(--line)}
+.stepper{display:flex;align-items:center;gap:6px;flex:1;min-width:0}
+.step{display:flex;align-items:center;gap:10px}
+.step-num{width:34px;height:34px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;background:#e9eaee;color:#98a2b3;border:2px solid #e9eaee;transition:.25s}
+.step-label{font-weight:700;font-size:15px;color:#98a2b3;white-space:nowrap;transition:.25s}
+.step.done .step-num{background:var(--red);border-color:var(--red);color:#fff}
+.step.active .step-num{background:#fff;border-color:var(--red);color:var(--red);box-shadow:0 0 0 4px var(--red-soft)}
+.step.done .step-label,.step.active .step-label{color:#111}
+.step-line{flex:1;height:2px;background:#e9eaee;min-width:26px;margin:0 6px;transition:.25s}
+.step-line.on{background:var(--red)}
+.whats{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.whats-ic{width:38px;height:38px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center}
+.whats small{display:block;font-size:11px;color:var(--muted);font-weight:600}
+.whats b{font-size:16px;color:#111}
+@media(max-width:900px){.whats{display:none}.step-label{display:none}}
+
+.wrap{max-width:1060px;margin:0 auto;padding:28px 20px 90px}
+.wrap.narrow{max-width:560px}
+.grid{display:grid;grid-template-columns:1fr 340px;gap:22px;align-items:start}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+.panel{background:var(--card);border-radius:16px;box-shadow:var(--shadow);padding:26px 28px}
+.panel+.panel{margin-top:20px}
+
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.4px;color:var(--red);text-transform:uppercase;margin:0 0 4px}
+.h-section{color:var(--navy);font-size:22px;font-weight:800;margin:0 0 6px}
+.h-center{text-align:center}
+.sub{color:var(--muted);font-size:14px;margin:0 0 20px;line-height:1.55}
+.block{margin-top:24px}
+.block-title{color:var(--navy);font-size:16px;font-weight:700;margin:0 0 12px}
+
+label.field{display:block;font-size:14px;font-weight:600;color:#344054;margin:0 0 6px}
+.req{color:var(--red)}
+.opt{color:#9aa2af;font-weight:500}
+.control{width:100%;border:1.5px solid var(--line);border-radius:var(--radius);padding:12px 14px;font-size:14px;font-family:inherit;color:var(--ink);background:#fff;transition:.15s;outline:none}
+.control::placeholder{color:#9aa2af}
+.control:focus{border-color:var(--red);box-shadow:0 0 0 3px var(--red-soft)}
+.control.err{border-color:var(--red);background:#fff8f8}
+.control:disabled{background:#f2f4f7;color:#667085;cursor:not-allowed;opacity:1}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+@media(max-width:640px){.row2,.row3{grid-template-columns:1fr}}
+.field-mt{margin-top:16px}
+.phone{display:flex}
+.phone .cc{display:flex;align-items:center;gap:6px;border:1.5px solid var(--line);border-right:0;border-radius:var(--radius) 0 0 var(--radius);padding:0 12px;background:#fafbfc;font-size:14px;font-weight:600}
+.phone .control{border-radius:0 var(--radius) var(--radius) 0}
+.err-msg{color:var(--red);font-size:12px;margin-top:5px;display:none}
+.err-msg.show{display:block}
+.hint{font-size:12px;color:var(--muted);margin-top:5px}
+.legal{font-size:12.5px;color:#98a2b3;margin-top:14px;line-height:1.55;text-align:center}
+.legal a{color:var(--blue);text-decoration:none}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--line);border-radius:20px;padding:8px 14px;font-size:13px;font-weight:600;color:#475467;cursor:pointer;background:#fff;transition:.15s}
+.chip:hover{border-color:#c7ccd6}
+.chip.sel{border-color:var(--red);background:var(--red-soft);color:var(--red)}
+
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:640px){.plans{grid-template-columns:1fr}}
+.plan{position:relative;border:1.5px solid var(--line);border-radius:12px;padding:18px 15px 16px;cursor:pointer;transition:.18s;background:#fff;text-align:left}
+.plan:hover{border-color:#c7ccd6}
+.plan.sel{border-color:var(--red);background:var(--red-soft);box-shadow:0 6px 18px rgba(201,31,38,.12)}
+.plan .ribbon{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--red);color:#fff;font-size:10.5px;font-weight:700;padding:3px 10px;border-radius:20px;white-space:nowrap}
+.plan .term{font-size:15px;font-weight:700;color:var(--ink)}
+.plan .price{font-size:22px;font-weight:800;color:var(--navy);margin:6px 0 2px}
+.plan .pm{font-size:12px;color:var(--muted)}
+.plan .save{display:inline-block;margin-top:8px;font-size:11px;font-weight:700;color:var(--green);background:#e7f8ef;padding:2px 8px;border-radius:20px}
+
+.chk{display:flex;align-items:flex-start;gap:10px;margin-top:10px;cursor:pointer;font-size:13.5px;color:#475467;line-height:1.5}
+.chk input{margin-top:2px;width:17px;height:17px;accent-color:var(--red);flex-shrink:0}
+.reassure{display:flex;gap:20px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);margin-top:22px}
+.reassure span{display:flex;align-items:center;gap:6px}
+
+/* review */
+.rev-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px 24px}
+@media(max-width:640px){.rev-grid{grid-template-columns:1fr}}
+.rev span{display:block;font-size:12px;color:var(--muted);margin-bottom:3px}
+.rev b{font-size:14px;color:var(--ink);font-weight:600;word-break:break-word}
+.rev-div{height:1px;background:var(--line);margin:16px 0}
+
+/* payment */
+.pm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:640px){.pm-grid{grid-template-columns:1fr 1fr}}
+.pm{border:1.5px solid var(--line);border-radius:12px;padding:16px 8px;background:#fff;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;transition:.15s;min-height:82px;justify-content:center;font-family:inherit}
+.pm:hover{border-color:#c7ccd6}
+.pm.sel{border-color:var(--red);background:var(--red-soft)}
+.pm-lbl{font-size:13px;font-weight:600;color:var(--ink);text-align:center;line-height:1.2}
+.pm-logos{display:flex;gap:5px;align-items:center;font-weight:800;font-size:14px;height:22px}
+.badge-visa{color:#1a1f71}.badge-mc{color:#eb001b}.badge-amex{color:#2e77bc}.badge-pp{color:#003087}
+.pays .badge-mc{color:#5a5a5a}
+.subrow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pay-note{background:#f0f6ff;border:1px solid #dbe8ff;border-radius:10px;padding:15px 17px;font-size:13.5px;color:#33475b;line-height:1.55}
+.pay-note b{color:var(--navy)}
+
+.actions{display:flex;justify-content:space-between;align-items:center;margin-top:24px;gap:12px}
+.btn{border:0;border-radius:var(--radius);font-family:inherit;font-weight:700;font-size:15px;cursor:pointer;padding:13px 26px;display:inline-flex;align-items:center;justify-content:center;gap:9px;transition:.15s}
+.btn-primary{background:var(--red);color:#fff}
+.btn-primary:hover{background:var(--red-dark)}
+.btn-ghost{background:#fff;color:#475467;border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:#c7ccd6}
+.btn-block{width:100%}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+
+/* summary (table style) */
+.summary{background:var(--card);border-radius:16px;box-shadow:var(--shadow);padding:22px;position:sticky;top:96px}
+.summary h3{margin:0 0 14px;font-size:18px;font-weight:800;color:var(--navy)}
+.ordtbl{width:100%;border-collapse:collapse;font-size:13.5px}
+.ordtbl th{color:var(--muted);font-weight:600;text-align:left;font-size:12.5px;padding:0 0 8px;border-bottom:1px solid var(--line)}
+.ordtbl td{padding:14px 0;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink)}
+.ordtbl .c-id{color:var(--muted);width:34px}
+.ordtbl .c-name{color:var(--muted);font-weight:500;line-height:1.4;padding-right:8px}
+.ordtbl .c-qty{text-align:center;width:26px}
+.ordtbl .c-price{text-align:right;white-space:nowrap;font-weight:500}
+.sub-line{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--line);font-size:14px}
+.sub-line b{font-weight:700}
+.tot-line{display:flex;justify-content:space-between;align-items:center;padding:16px 0}
+.tot-line .k{font-weight:700;font-size:15px}
+.tot-line .v{font-weight:800;font-size:20px;color:var(--red)}
+.tc{display:flex;align-items:flex-start;gap:9px;font-size:13px;color:#475467;margin:2px 0 14px;cursor:pointer;line-height:1.5}
+.tc input{margin-top:2px;width:17px;height:17px;accent-color:var(--red);flex-shrink:0}
+.tc a{color:var(--blue);text-decoration:none}
+.secure{display:flex;align-items:center;gap:6px;justify-content:center;font-size:11.5px;color:var(--muted);margin-top:10px}
+.pays{display:flex;gap:10px;justify-content:center;margin-top:12px;flex-wrap:wrap;font-size:11.5px;font-weight:800;opacity:.75;padding-top:12px;border-top:1px solid var(--line)}
+
+.success{text-align:center;padding:14px 10px}
+.success .tick{width:74px;height:74px;border-radius:50%;background:#e7f8ef;display:flex;align-items:center;justify-content:center;margin:6px auto 18px}
+.success h2{color:var(--navy);margin:0 0 8px;font-size:24px}
+.success p{color:var(--muted);max-width:460px;margin:0 auto 6px;font-size:14px;line-height:1.6}
+.recap{max-width:440px;margin:22px auto 0;text-align:left;border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.recap .brk{display:flex;justify-content:space-between;font-size:13.5px;padding:9px 0;border-bottom:1px solid var(--line)}
+.recap .brk:last-child{border-bottom:0}
+.recap .k{color:var(--muted)}.recap .v{font-weight:600}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="logo">
+      <svg class="logo-mark" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22 3C11.5 3 3 10.4 3 20.5c0 6 3 11 7.7 14.2-1.2-1.9-2-4.2-2-6.7C8.7 20.4 15.6 14 24 14c5.7 0 10.7 2.9 13.3 7.2C36 10.6 30 3 22 3Z" fill="#C91F26"/>
+        <path d="M41 22c0 10-8.8 18-20 18-3.6 0-7-.8-9.9-2.3 2.4 1 5 1.6 7.9 1.6 9.4 0 16.9-6.5 16.9-14.8 0-3-.9-5.7-2.6-8 4.7 1.2 7.7 3 7.7 5.5Z" fill="#e23b41"/>
+      </svg>
+      <div class="logo-text"><b>OffShore</b><span>CompanyCorp</span></div>
+    </div>
+    <div class="divider-v"></div>
+    <div class="stepper">
+      <div class="step active" id="dot1"><div class="step-num">1</div><div class="step-label">Virtual Office</div></div>
+      <div class="step-line" id="line1"></div>
+      <div class="step" id="dot2"><div class="step-num">2</div><div class="step-label">Company Info</div></div>
+      <div class="step-line" id="line2"></div>
+      <div class="step" id="dot3"><div class="step-num">3</div><div class="step-label">Review &amp; Payment</div></div>
+    </div>
+    <div class="whats">
+      <div class="whats-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-1.7-.1-.4-.1-.9-.3-1.6-.6-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8 0-1.3.7-2 .9-2.2.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.3 0 .5l-.4.6c-.2.2-.3.4-.1.7.2.3.9 1.4 1.9 2.3 1.3 1.1 2.3 1.5 2.6 1.6.3.1.5.1.6-.1l.7-.9c.2-.2.4-.2.6-.1l1.8.9c.3.1.4.2.5.3.1.2.1.7-.1 1.4Z"/></svg></div>
+      <div><small>WhatsApp</small><b>+65 8641 5350</b></div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap" id="wrap">
+<div class="grid" id="gridWrap">
+  <div>
+    <!-- STEP 1: Quick start -->
+    <section class="panel" id="step1">
+      <p class="eyebrow h-center">Get started</p>
+      <h2 class="h-section h-center">Registration details</h2>
+      <p class="sub h-center">We just need a few details to get started — no payment yet.</p>
+      <div style="max-width:440px;margin:0 auto">
+        <label class="field">Email address <span class="req">*</span></label>
+        <input class="control" id="email" placeholder="you@company.com" autocomplete="email">
+        <div class="err-msg" id="err-email">Please enter a valid email.</div>
+
+        <label class="field field-mt">Phone number <span class="req">*</span></label>
+        <div class="phone">
+          <span class="cc">🇻🇳 +84</span>
+          <input class="control" id="phone" placeholder="Phone number" inputmode="numeric">
+        </div>
+        <div class="err-msg" id="err-phone">Please enter your phone number.</div>
+
+        <label class="field field-mt">Jurisdiction <span class="req">*</span></label>
+        <select class="control" id="jur">
+          <option value="">Select a jurisdiction</option>
+          <option value="Hong Kong">Hong Kong</option>
+          <option value="Singapore">Singapore</option>
+        </select>
+        <div class="hint">Only jurisdictions where Virtual Office is available are shown.</div>
+        <div class="err-msg" id="err-jur">Please select a jurisdiction.</div>
+
+        <label class="field field-mt">Preferred contact channel <span class="opt">(optional)</span></label>
+        <div class="chips" id="channels">
+          <div class="chip" data-ch="Email">Email</div>
+          <div class="chip" data-ch="WhatsApp">WhatsApp</div>
+          <div class="chip" data-ch="Phone call">Phone call</div>
+          <div class="chip" data-ch="Zalo">Zalo</div>
+          <div class="chip" data-ch="Telegram">Telegram</div>
+        </div>
+
+        <p class="legal">By submitting this you agree to our <a href="#">Privacy Policy</a>.</p>
+        <button class="btn btn-primary btn-block" id="s1next">Next
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- STEP 2: Plan + company -->
+    <section class="panel hidden" id="step2">
+      <p class="eyebrow">Plan &amp; company</p>
+      <h2 class="h-section">Select a plan</h2>
+      <p class="sub">Choose a service duration. Longer terms save more.</p>
+      <div class="plans" id="planGrid"></div>
+      <div class="err-msg" id="err-plan">Please choose a plan.</div>
+
+      <div class="block">
+        <div class="block-title">Company information</div>
+        <div class="row2">
+          <div>
+            <label class="field">Company Name <span class="req">*</span></label>
+            <input class="control" id="company" placeholder="e.g. Horizon Ventures Limited">
+            <div class="err-msg" id="err-company">Please enter your company name.</div>
+          </div>
+          <div>
+            <label class="field">Company Number <span class="opt">(if registered)</span></label>
+            <input class="control" id="cnumber" placeholder="Registration number">
+            <label class="chk"><input type="checkbox" id="notinc"><span>My company isn’t incorporated yet</span></label>
+          </div>
+        </div>
+        <div class="field-mt">
+          <label class="field">Business Activity <span class="opt">(optional)</span></label>
+          <input class="control" id="activity" placeholder="e.g. IT consulting, e-commerce, trading">
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-ghost" id="s2back">Back</button>
+        <button class="btn btn-primary" id="s2next">Continue to payment</button>
+      </div>
+    </section>
+
+    <!-- STEP 3: Review + Payment -->
+    <section class="panel hidden" id="step3">
+      <div class="block-title" style="font-size:18px;margin-bottom:16px">Review Information</div>
+      <div class="rev-grid">
+        <div class="rev"><span>Company Jurisdiction</span><b id="rvJur">—</b></div>
+        <div class="rev"><span>Company Type</span><b>Virtual Office</b></div>
+        <div class="rev"><span>Company Name</span><b id="rvName">—</b></div>
+        <div class="rev"><span>Email</span><b id="rvEmail">—</b></div>
+      </div>
+      <div class="rev-div"></div>
+      <div class="rev-grid">
+        <div class="rev"><span>Business Activity</span><b id="rvAct">—</b></div>
+        <div class="rev"><span>Term</span><b id="rvTerm">—</b></div>
+      </div>
+    </section>
+
+    <section class="panel hidden" id="step3b">
+      <div class="block-title" style="font-size:18px;margin-bottom:16px">Select Your Payment Method</div>
+      <div class="pm-grid" id="pmGrid">
+        <button type="button" class="pm sel" data-pm="card"><span class="pm-logos"><span class="badge-visa">VISA</span> <span class="badge-mc">●●</span></span><span class="pm-lbl">Credit or Debit Card</span></button>
+        <button type="button" class="pm" data-pm="apple"><span class="pm-logos"> Pay</span><span class="pm-lbl">Apple Pay</span></button>
+        <button type="button" class="pm" data-pm="google"><span class="pm-logos">G Pay</span><span class="pm-lbl">Google Pay</span></button>
+        <button type="button" class="pm" data-pm="amex"><span class="pm-logos badge-amex">AMEX</span><span class="pm-lbl">American Express</span></button>
+        <button type="button" class="pm" data-pm="paypal"><span class="pm-logos badge-pp">PayPal</span><span class="pm-lbl">PayPal</span></button>
+        <button type="button" class="pm" data-pm="wire"><span class="pm-logos">🏦</span><span class="pm-lbl">Wire Bank Transfer</span></button>
+      </div>
+    </section>
+
+    <section class="panel hidden" id="step3c">
+      <div id="paneCard">
+        <div class="block-title" style="font-size:18px;margin-bottom:16px">Credit Card Or Debit Card Info</div>
+        <div class="row2">
+          <div><label class="field">Card Name <span class="req">*</span></label><input class="control" id="cardName" placeholder="Card Name"><div class="err-msg" id="err-cardName">Required.</div></div>
+          <div><label class="field">Card Number <span class="req">*</span></label><input class="control" id="cardNum" placeholder="•••• •••• •••• ••••" inputmode="numeric"><div class="err-msg" id="err-cardNum">Required.</div></div>
+        </div>
+        <div class="row2 field-mt">
+          <div>
+            <label class="field">Expiry Date <span class="req">*</span></label>
+            <div class="subrow">
+              <select class="control" id="expM"><option value="">Month</option><option>01</option><option>02</option><option>03</option><option>04</option><option>05</option><option>06</option><option>07</option><option>08</option><option>09</option><option>10</option><option>11</option><option>12</option></select>
+              <select class="control" id="expY"><option value="">Year</option><option>2026</option><option>2027</option><option>2028</option><option>2029</option><option>2030</option><option>2031</option></select>
+            </div>
+            <div class="err-msg" id="err-exp">Required.</div>
+          </div>
+          <div><label class="field">CVV <span class="req">*</span></label><input class="control" id="cvv" placeholder="CVV" inputmode="numeric" maxlength="4"><div class="err-msg" id="err-cvv">Required.</div></div>
+        </div>
+
+        <div class="block-title" style="font-size:18px;margin:24px 0 16px">Billing Information</div>
+        <div class="row2">
+          <div><label class="field">First Name <span class="req">*</span></label><input class="control" id="bFirst" placeholder="Type your first name"><div class="err-msg" id="err-bFirst">Required.</div></div>
+          <div><label class="field">Last Name <span class="req">*</span></label><input class="control" id="bLast" placeholder="Type your last name"><div class="err-msg" id="err-bLast">Required.</div></div>
+        </div>
+        <div class="row2 field-mt">
+          <div>
+            <label class="field">Country <span class="req">*</span></label>
+            <select class="control" id="bCountry"><option value="">Please select</option><option>Vietnam</option><option>Hong Kong</option><option>Singapore</option><option>United Kingdom</option><option>United States</option><option>Australia</option><option>Canada</option><option>Germany</option></select>
+            <div class="err-msg" id="err-bCountry">Required.</div>
+          </div>
+          <div><label class="field">Address <span class="req">*</span></label><input class="control" id="bAddr" placeholder="Type your address"><div class="err-msg" id="err-bAddr">Required.</div></div>
+        </div>
+        <div class="row3 field-mt">
+          <div><label class="field">City/County <span class="req">*</span></label><input class="control" id="bCity" placeholder="Type your city/county"><div class="err-msg" id="err-bCity">Required.</div></div>
+          <div><label class="field">State/Province/Region <span class="req">*</span></label><input class="control" id="bState" placeholder="Type your state/province/region"><div class="err-msg" id="err-bState">Required.</div></div>
+          <div><label class="field">ZIP/Postal code <span class="req">*</span></label><input class="control" id="bZip" placeholder="Type your postal code"><div class="err-msg" id="err-bZip">Required.</div></div>
+        </div>
+      </div>
+      <div id="paneRedirect" class="hidden"><div class="pay-note" id="redirectNote"></div></div>
+
+      <div class="actions">
+        <button class="btn btn-ghost" id="s3back">Back</button>
+      </div>
+    </section>
+
+    <!-- STEP 4: success -->
+    <section class="panel hidden" id="step4">
+      <div class="success">
+        <div class="tick"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#12b76a" stroke-width="2.5"><path d="m5 13 4 4L19 7"/></svg></div>
+        <h2>Payment successful 🎉</h2>
+        <p>Thanks, <b id="okName">there</b>! Your Virtual Office order is confirmed. A specialist will email your registered-address documents shortly.</p>
+        <div class="recap" id="okBox"></div>
+      </div>
+      <div class="actions">
+        <button class="btn btn-ghost" id="restart">Start a new order</button>
+        <a class="btn btn-primary" href="#" style="text-decoration:none">Go to Client Portal</a>
+      </div>
+    </section>
+  </div>
+
+  <!-- SUMMARY -->
+  <aside id="sideCol">
+    <div class="summary" id="sideSummary">
+      <h3>Order Summary</h3>
+      <table class="ordtbl">
+        <thead><tr><th class="c-id">ID</th><th class="c-name">Product Name</th><th class="c-qty">&nbsp;</th><th class="c-price">&nbsp;</th></tr></thead>
+        <tbody><tr>
+          <td class="c-id">#1</td>
+          <td class="c-name" id="sumProduct">Hong Kong - 12 months</td>
+          <td class="c-qty">1</td>
+          <td class="c-price" id="sumLine">US$ 2,148</td>
+        </tr></tbody>
+      </table>
+      <div class="sub-line"><span>Subtotal</span><b id="sumSub">US$ 2,148</b></div>
+      <div class="tot-line"><span class="k">Total</span><span class="v" id="sumTotal">US$ 2,148</span></div>
+      <label class="tc hidden" id="tcWrap"><input type="checkbox" id="tc"><span>I have read and agreed <a href="#">Terms and Conditions</a></span></label>
+      <button class="btn btn-primary btn-block" id="payBtn"><span id="payBtnLabel">Continue to payment</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+      </button>
+      <div class="secure"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#98a2b3" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg> 256-bit SSL encrypted · No hidden fees</div>
+      <div class="pays"><span class="badge-visa">VISA</span><span class="badge-mc">Mastercard</span><span class="badge-amex">AMEX</span><span class="badge-pp">PayPal</span></div>
+    </div>
+  </aside>
+</div>
+</div>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  function money(n){ return 'US$ '+n.toLocaleString('en-US'); }
+  function esc(s){ return (s||'').replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];}); }
+
+  var DUR = [
+    {t:'3 Months',  price:597,  pm:199, best:'', save:''},
+    {t:'6 Months',  price:1134, pm:189, best:'', save:'Save 5%'},
+    {t:'12 Months', price:2148, pm:179, best:'★ RECOMMENDED', save:'Save 10%'}
+  ];
+  var state = { jur:'', dur:DUR[2], channels:[], pm:'card', step:1 };
+
+  /* STEP 1 */
+  document.querySelectorAll('#channels .chip').forEach(function(el){
+    el.addEventListener('click', function(){
+      el.classList.toggle('sel');
+      state.channels = Array.prototype.map.call(document.querySelectorAll('#channels .chip.sel'), function(x){return x.dataset.ch;});
+    });
+  });
+  $('jur').addEventListener('change', function(){ state.jur=this.value; if(this.value) $('err-jur').classList.remove('show'); updateSummary(); });
+  $('s1next').addEventListener('click', function(){
+    var ok=true;
+    $('err-email').classList.remove('show'); $('email').classList.remove('err');
+    $('err-phone').classList.remove('show'); $('phone').classList.remove('err');
+    $('err-jur').classList.remove('show'); $('jur').classList.remove('err');
+    var em=$('email').value.trim();
+    if(!em || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){ $('err-email').classList.add('show'); $('email').classList.add('err'); ok=false; }
+    if(!$('phone').value.trim()){ $('err-phone').classList.add('show'); $('phone').classList.add('err'); ok=false; }
+    if(!$('jur').value){ $('err-jur').classList.add('show'); $('jur').classList.add('err'); ok=false; }
+    if(ok) show(2);
+  });
+
+  /* STEP 2: plans */
+  DUR.forEach(function(d,i){
+    var el=document.createElement('button');
+    el.type='button'; el.className='plan'+(i===2?' sel':''); el.dataset.i=i;
+    el.innerHTML=(d.best?'<span class="ribbon">'+d.best+'</span>':'')+
+      '<div class="term">'+d.t+'</div>'+
+      '<div class="price">'+money(d.price)+'</div>'+
+      '<div class="pm">'+money(d.pm)+' / month</div>'+
+      (d.save?'<span class="save">'+d.save+'</span>':'');
+    el.addEventListener('click', function(){
+      document.querySelectorAll('#planGrid .plan').forEach(function(x){x.classList.remove('sel')});
+      el.classList.add('sel'); state.dur=DUR[i]; $('err-plan').classList.remove('show'); updateSummary();
+    });
+    $('planGrid').appendChild(el);
+  });
+  $('notinc').addEventListener('change', function(){
+    var c=$('cnumber'); c.disabled=this.checked; if(this.checked){ c.value=''; c.placeholder='Not required yet'; } else { c.placeholder='Registration number'; }
+  });
+  $('s2next').addEventListener('click', function(){
+    var ok=true;
+    if(!document.querySelector('#planGrid .plan.sel')){ $('err-plan').classList.add('show'); ok=false; }
+    $('err-company').classList.remove('show'); $('company').classList.remove('err');
+    if(!$('company').value.trim()){ $('err-company').classList.add('show'); $('company').classList.add('err'); ok=false; }
+    if(!ok) return;
+    buildReview(); prefillBilling(); show(3);
+  });
+  $('s2back').addEventListener('click', function(){ show(1); });
+
+  function prefillBilling(){
+    if(!$('bCountry').value) $('bCountry').value='Vietnam';
+    var comp=$('company').value.trim();
+  }
+  function buildReview(){
+    $('rvJur').textContent  = state.jur || '—';
+    $('rvName').textContent = $('company').value.trim() || '—';
+    $('rvEmail').textContent= $('email').value.trim() || '—';
+    $('rvAct').textContent  = $('activity').value.trim() || '—';
+    $('rvTerm').textContent = 'Virtual Office · ' + state.dur.t;
+  }
+
+  /* STEP 3: payment */
+  document.querySelectorAll('#pmGrid .pm').forEach(function(el){
+    el.addEventListener('click', function(){
+      document.querySelectorAll('#pmGrid .pm').forEach(function(x){x.classList.remove('sel')});
+      el.classList.add('sel'); state.pm=el.dataset.pm; renderPay();
+    });
+  });
+  function renderPay(){
+    var card=(state.pm==='card' || state.pm==='amex');
+    $('paneCard').classList.toggle('hidden', !card);
+    $('paneRedirect').classList.toggle('hidden', card);
+    if(!card){
+      var names={apple:'Apple Pay',google:'Google Pay',paypal:'PayPal',wire:'Wire Bank Transfer'};
+      if(state.pm==='wire'){ $('redirectNote').innerHTML='<b>Wire Bank Transfer.</b> After you place the order we’ll email our bank details and a pro-forma invoice. Your address is reserved for 7 days.'; }
+      else { $('redirectNote').innerHTML='<b>'+names[state.pm]+'.</b> You’ll be securely redirected to '+names[state.pm]+' to authorize '+money(state.dur.price)+'. No card details are entered here.'; }
+    }
+  }
+  $('s3back').addEventListener('click', function(){ show(2); });
+
+  /* Summary + nav */
+  function updateSummary(){
+    var place = state.jur || 'Virtual Office';
+    $('sumProduct').textContent = place + ' - ' + state.dur.t.toLowerCase();
+    $('sumLine').textContent = money(state.dur.price);
+    $('sumSub').textContent = money(state.dur.price);
+    $('sumTotal').textContent = money(state.dur.price);
+  }
+
+  function show(step){
+    state.step=step;
+    $('step1').classList.toggle('hidden', step!==1);
+    $('step2').classList.toggle('hidden', step!==2);
+    ['step3','step3b','step3c'].forEach(function(s){ $(s).classList.toggle('hidden', step!==3); });
+    $('step4').classList.toggle('hidden', step!==4);
+
+    var dots=[$('dot1'),$('dot2'),$('dot3')];
+    dots.forEach(function(d,i){ d.classList.remove('active','done'); var n=i+1; if(n<step) d.classList.add('done'); else if(n===step) d.classList.add('active'); });
+    $('line1').classList.toggle('on', step>=2);
+    $('line2').classList.toggle('on', step>=3);
+
+    var showSummary = (step===2 || step===3);
+    $('sideCol').style.display = showSummary ? '' : 'none';
+    $('gridWrap').style.gridTemplateColumns = showSummary ? '' : '1fr';
+    $('wrap').classList.toggle('narrow', step===1 || step===4);
+    $('tcWrap').classList.toggle('hidden', step!==3);
+    $('payBtnLabel').textContent = (step===3) ? 'Proceed to Secured Payment' : 'Continue to payment';
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  $('payBtn').addEventListener('click', function(){
+    if(state.step===2) $('s2next').click();
+    else if(state.step===3) submitOrder();
+  });
+
+  function submitOrder(){
+    if(!$('tc').checked){ alert('Please agree to the Terms and Conditions to continue.'); return; }
+    var ok=true;
+    if(state.pm==='card' || state.pm==='amex'){
+      [['cardName','err-cardName'],['cardNum','err-cardNum'],['cvv','err-cvv'],
+       ['bFirst','err-bFirst'],['bLast','err-bLast'],['bCountry','err-bCountry'],
+       ['bAddr','err-bAddr'],['bCity','err-bCity'],['bState','err-bState'],['bZip','err-bZip']
+      ].forEach(function(p){
+        $(p[1]).classList.remove('show'); $(p[0]).classList.remove('err');
+        if(!$(p[0]).value.trim()){ $(p[1]).classList.add('show'); $(p[0]).classList.add('err'); ok=false; }
+      });
+      $('err-exp').classList.remove('show');
+      if(!$('expM').value || !$('expY').value){ $('err-exp').classList.add('show'); ok=false; }
+    }
+    if(!ok){ $('step3c').scrollIntoView({behavior:'smooth',block:'start'}); return; }
+    buildFinal(); show(4);
+  }
+
+  $('restart').addEventListener('click', function(){ location.reload(); });
+
+  function buildFinal(){
+    var fn=$('bFirst').value.trim();
+    $('okName').textContent = fn || 'there';
+    var pmName={card:'Credit / Debit Card',amex:'American Express',apple:'Apple Pay',google:'Google Pay',paypal:'PayPal',wire:'Wire Bank Transfer'}[state.pm];
+    var rows=[
+      ['Company', $('company').value.trim()||'—'],
+      ['Jurisdiction', state.jur||'—'],
+      ['Term', state.dur.t],
+      ['Payment method', pmName],
+      ['Amount paid', money(state.dur.price)],
+      ['Confirmation to', $('email').value.trim()]
+    ];
+    if(state.channels.length) rows.push(['Contact via', state.channels.join(', ')]);
+    $('okBox').innerHTML = rows.map(function(r){ return '<div class="brk"><span class="k">'+esc(r[0])+'</span><span class="v">'+esc(r[1])+'</span></div>'; }).join('');
+  }
+
+  updateSummary(); renderPay(); show(1);
+})();
+</script>
+</body>
+</html>
