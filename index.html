@@ -77,6 +77,13 @@ label.field{display:block;font-size:14px;font-weight:600;color:#344054;margin:0 
 .legal{font-size:12.5px;color:#98a2b3;margin-top:14px;line-height:1.55;text-align:center}
 .legal a{color:var(--blue);text-decoration:none}
 
+.jur-quick{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media(max-width:640px){.jur-quick{grid-template-columns:1fr 1fr}}
+.jur-opt{border:1.5px solid var(--line);border-radius:10px;padding:12px 10px;font-size:14px;font-weight:600;color:#344054;cursor:pointer;background:#fff;transition:.15s;text-align:center;font-family:inherit}
+.jur-opt:hover{border-color:#c7ccd6}
+.jur-opt.sel{border-color:var(--red);background:var(--red-soft);color:var(--red)}
+.jur-or{font-size:12.5px;color:var(--muted);margin:12px 0 6px}
+
 .chk{display:flex;align-items:flex-start;gap:10px;margin-top:10px;cursor:pointer;font-size:13.5px;color:#475467;line-height:1.5}
 .chk input{margin-top:2px;width:17px;height:17px;accent-color:var(--red);flex-shrink:0}
 .reassure{display:flex;gap:20px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);margin-top:22px}
@@ -191,15 +198,21 @@ label.field{display:block;font-size:14px;font-weight:600;color:#344054;margin:0 
       <select class="control" id="serviceType" disabled><option>Virtual Office</option></select>
 
       <label class="field field-mt">Jurisdiction <span class="req">*</span></label>
-      <select class="control" id="jur">
-        <option value="">Select a jurisdiction</option>
+      <div class="jur-quick" id="jurQuick">
+        <button type="button" class="jur-opt" data-jur="Vietnam">🇻🇳 Vietnam</button>
+        <button type="button" class="jur-opt" data-jur="Hong Kong">🇭🇰 Hong Kong</button>
+        <button type="button" class="jur-opt" data-jur="United States of America">🇺🇸 United States</button>
+        <button type="button" class="jur-opt" data-jur="Singapore">🇸🇬 Singapore</button>
+      </div>
+      <div class="jur-or">Or choose another country</div>
+      <select class="control" id="jurOther">
+        <option value="">Select another country</option>
         <option value="Anguilla">🇦🇮 Anguilla</option>
         <option value="Bahamas">🇧🇸 Bahamas</option>
         <option value="Belize">🇧🇿 Belize</option>
         <option value="Cayman Islands">🇰🇾 Cayman Islands</option>
         <option value="Cyprus">🇨🇾 Cyprus</option>
         <option value="Gibraltar">🇬🇮 Gibraltar</option>
-        <option value="Hong Kong">🇭🇰 Hong Kong</option>
         <option value="Labuan">🇲🇾 Labuan</option>
         <option value="Liechtenstein">🇱🇮 Liechtenstein</option>
         <option value="Luxembourg">🇱🇺 Luxembourg</option>
@@ -212,13 +225,10 @@ label.field{display:block;font-size:14px;font-weight:600;color:#344054;margin:0 
         <option value="Saint Vincent and the Grenadines">🇻🇨 Saint Vincent and the Grenadines</option>
         <option value="Samoa">🇼🇸 Samoa</option>
         <option value="Seychelles">🇸🇨 Seychelles</option>
-        <option value="Singapore">🇸🇬 Singapore</option>
         <option value="Switzerland">🇨🇭 Switzerland</option>
         <option value="United Arab Emirates">🇦🇪 United Arab Emirates</option>
         <option value="United Kingdom">🇬🇧 United Kingdom</option>
-        <option value="United States of America">🇺🇸 United States of America</option>
         <option value="Vanuatu">🇻🇺 Vanuatu</option>
-        <option value="Vietnam">🇻🇳 Vietnam</option>
         <option value="Virgin Islands (British)">🇻🇬 Virgin Islands (British)</option>
       </select>
       <div class="err-msg" id="err-jur">Please select a jurisdiction.</div>
@@ -459,19 +469,29 @@ label.field{display:block;font-size:14px;font-weight:600;color:#344054;margin:0 
     state.dur = DUR[this.selectedIndex]; $('err-pkg').classList.remove('show'); updateSummary();
   });
   $('channel').addEventListener('change', function(){ state.channel = this.value; });
-  $('jur').addEventListener('change', function(){ state.jur=this.value; if(this.value) $('err-jur').classList.remove('show'); renderPkgOptions(); updateSummary(); });
+  function selectJur(value){
+    state.jur = value;
+    document.querySelectorAll('#jurQuick .jur-opt').forEach(function(b){ b.classList.toggle('sel', b.dataset.jur===value); });
+    if(!document.querySelector('#jurQuick .jur-opt.sel')) $('jurOther').value = value;
+    if(value) $('err-jur').classList.remove('show');
+    renderPkgOptions(); updateSummary();
+  }
+  document.querySelectorAll('#jurQuick .jur-opt').forEach(function(btn){
+    btn.addEventListener('click', function(){ $('jurOther').value=''; selectJur(btn.dataset.jur); });
+  });
+  $('jurOther').addEventListener('change', function(){ selectJur(this.value); });
   $('s1next').addEventListener('click', function(){
     var ok=true;
     $('err-fullName').classList.remove('show'); $('fullName').classList.remove('err');
     $('err-email').classList.remove('show'); $('email').classList.remove('err');
     $('err-phone').classList.remove('show'); $('phone').classList.remove('err');
-    $('err-jur').classList.remove('show'); $('jur').classList.remove('err');
+    $('err-jur').classList.remove('show');
     $('err-pkg').classList.remove('show'); $('pkg').classList.remove('err');
     if(!$('fullName').value.trim()){ $('err-fullName').classList.add('show'); $('fullName').classList.add('err'); ok=false; }
     var em=$('email').value.trim();
     if(!em || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){ $('err-email').classList.add('show'); $('email').classList.add('err'); ok=false; }
     if(!$('phone').value.trim()){ $('err-phone').classList.add('show'); $('phone').classList.add('err'); ok=false; }
-    if(!$('jur').value){ $('err-jur').classList.add('show'); $('jur').classList.add('err'); ok=false; }
+    if(!state.jur){ $('err-jur').classList.add('show'); ok=false; }
     if(!$('pkg').value){ $('err-pkg').classList.add('show'); $('pkg').classList.add('err'); ok=false; }
     if(ok){ $('compCountry').value = state.jur; show(2); }
   });
