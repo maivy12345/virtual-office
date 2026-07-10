@@ -187,16 +187,19 @@ label.field{display:block;font-size:14px;font-weight:600;color:#344054;margin:0 
         <div class="trust-item"><span class="trust-ic blue"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2f6fed" stroke-width="2.2"><circle cx="9" cy="8" r="3"/><path d="M2 20c0-3.3 3.1-6 7-6s7 2.7 7 6"/><path d="M16 4.2a3 3 0 0 1 0 5.8"/><path d="M22 20c0-2.8-2.2-5.1-5-5.8"/></svg></span>1-on-1 Expert Consultation</div>
       </div>
 
-      <label class="field">Jurisdiction <span class="req">*</span></label>
+      <label class="field">Type of Service <span class="req">*</span></label>
+      <select class="control" id="serviceType" disabled><option>Virtual Office</option></select>
+
+      <label class="field field-mt">Jurisdiction <span class="req">*</span></label>
       <select class="control" id="jur">
         <option value="">Select a jurisdiction</option>
         <option value="Hong Kong">Hong Kong</option>
         <option value="Singapore">Singapore</option>
+        <option value="BVI">BVI</option>
+        <option value="United States">United States</option>
+        <option value="United Kingdom">United Kingdom</option>
       </select>
       <div class="err-msg" id="err-jur">Please select a jurisdiction.</div>
-
-      <label class="field field-mt">Type of Service <span class="req">*</span></label>
-      <select class="control" id="serviceType" disabled><option>Virtual Office</option></select>
 
       <label class="field field-mt">Choose Package Fees <span class="req">*</span></label>
       <select class="control" id="pkg"></select>
@@ -263,6 +266,9 @@ label.field{display:block;font-size:14px;font-weight:600;color:#344054;margin:0 
         <select class="control" id="compCountry">
           <option value="Hong Kong">Hong Kong</option>
           <option value="Singapore">Singapore</option>
+          <option value="BVI">BVI</option>
+          <option value="United States">United States</option>
+          <option value="United Kingdom">United Kingdom</option>
         </select>
       </div>
 
