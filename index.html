@@ -77,26 +77,17 @@ label.field{display:block;font-size:14px;font-weight:600;color:#344054;margin:0 
 .legal{font-size:12.5px;color:#98a2b3;margin-top:14px;line-height:1.55;text-align:center}
 .legal a{color:var(--blue);text-decoration:none}
 
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{border:1.5px solid var(--line);border-radius:20px;padding:8px 14px;font-size:13px;font-weight:600;color:#475467;cursor:pointer;background:#fff;transition:.15s}
-.chip:hover{border-color:#c7ccd6}
-.chip.sel{border-color:var(--red);background:var(--red-soft);color:var(--red)}
-
-.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-@media(max-width:640px){.plans{grid-template-columns:1fr}}
-.plan{position:relative;border:1.5px solid var(--line);border-radius:12px;padding:18px 15px 16px;cursor:pointer;transition:.18s;background:#fff;text-align:left}
-.plan:hover{border-color:#c7ccd6}
-.plan.sel{border-color:var(--red);background:var(--red-soft);box-shadow:0 6px 18px rgba(201,31,38,.12)}
-.plan .ribbon{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--red);color:#fff;font-size:10.5px;font-weight:700;padding:3px 10px;border-radius:20px;white-space:nowrap}
-.plan .term{font-size:15px;font-weight:700;color:var(--ink)}
-.plan .price{font-size:22px;font-weight:800;color:var(--navy);margin:6px 0 2px}
-.plan .pm{font-size:12px;color:var(--muted)}
-.plan .save{display:inline-block;margin-top:8px;font-size:11px;font-weight:700;color:var(--green);background:#e7f8ef;padding:2px 8px;border-radius:20px}
-
 .chk{display:flex;align-items:flex-start;gap:10px;margin-top:10px;cursor:pointer;font-size:13.5px;color:#475467;line-height:1.5}
 .chk input{margin-top:2px;width:17px;height:17px;accent-color:var(--red);flex-shrink:0}
 .reassure{display:flex;gap:20px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);margin-top:22px}
 .reassure span{display:flex;align-items:center;gap:6px}
+
+.trust-row{display:flex;justify-content:center;gap:36px;flex-wrap:wrap;padding-bottom:20px;margin-bottom:22px;border-bottom:1px solid var(--line)}
+.trust-item{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;color:#344054}
+.trust-ic{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.trust-ic.green{background:#e7f8ef}
+.trust-ic.purple{background:#f2eafd}
+.trust-ic.blue{background:#e9f0fe}
 
 /* review */
 .rev-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px 24px}
@@ -190,77 +181,93 @@ label.field{display:block;font-size:14px;font-weight:600;color:#344054;margin:0 
   <div>
     <!-- STEP 1: Quick start -->
     <section class="panel" id="step1">
-      <p class="eyebrow h-center">Get started</p>
-      <h2 class="h-section h-center">Registration details</h2>
-      <p class="sub h-center">We just need a few details to get started — no payment yet.</p>
-      <div style="max-width:440px;margin:0 auto">
-        <label class="field">Email address <span class="req">*</span></label>
-        <input class="control" id="email" placeholder="you@company.com" autocomplete="email">
-        <div class="err-msg" id="err-email">Please enter a valid email.</div>
+      <div class="trust-row">
+        <div class="trust-item"><span class="trust-ic green"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#12b76a" stroke-width="2.2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span>Confidential</div>
+        <div class="trust-item"><span class="trust-ic purple"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8a56d6" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></span>Under 3 Minutes</div>
+        <div class="trust-item"><span class="trust-ic blue"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2f6fed" stroke-width="2.2"><circle cx="9" cy="8" r="3"/><path d="M2 20c0-3.3 3.1-6 7-6s7 2.7 7 6"/><path d="M16 4.2a3 3 0 0 1 0 5.8"/><path d="M22 20c0-2.8-2.2-5.1-5-5.8"/></svg></span>1-on-1 Expert Consultation</div>
+      </div>
 
-        <label class="field field-mt">Phone number <span class="req">*</span></label>
-        <div class="phone">
-          <span class="cc">🇻🇳 +84</span>
-          <input class="control" id="phone" placeholder="Phone number" inputmode="numeric">
+      <label class="field">Jurisdiction <span class="req">*</span></label>
+      <select class="control" id="jur">
+        <option value="">Select a jurisdiction</option>
+        <option value="Hong Kong">Hong Kong</option>
+        <option value="Singapore">Singapore</option>
+      </select>
+      <div class="err-msg" id="err-jur">Please select a jurisdiction.</div>
+
+      <label class="field field-mt">Type of Service <span class="req">*</span></label>
+      <select class="control" id="serviceType" disabled><option>Virtual Office</option></select>
+
+      <label class="field field-mt">Choose Package Fees <span class="req">*</span></label>
+      <select class="control" id="pkg"></select>
+      <div class="err-msg" id="err-pkg">Please choose a package.</div>
+
+      <div class="block-title" style="margin-top:24px">Contact Information</div>
+      <label class="field">Full Name <span class="req">*</span></label>
+      <input class="control" id="fullName" placeholder="Type your full name">
+      <div class="err-msg" id="err-fullName">Please enter your full name.</div>
+
+      <div class="row2 field-mt">
+        <div>
+          <label class="field">Email Address <span class="req">*</span></label>
+          <input class="control" id="email" placeholder="you@company.com" autocomplete="email">
+          <div class="err-msg" id="err-email">Please enter a valid email.</div>
         </div>
-        <div class="err-msg" id="err-phone">Please enter your phone number.</div>
-
-        <label class="field field-mt">Jurisdiction <span class="req">*</span></label>
-        <select class="control" id="jur">
-          <option value="">Select a jurisdiction</option>
-          <option value="Hong Kong">Hong Kong</option>
-          <option value="Singapore">Singapore</option>
-        </select>
-        <div class="hint">Only jurisdictions where Virtual Office is available are shown.</div>
-        <div class="err-msg" id="err-jur">Please select a jurisdiction.</div>
-
-        <label class="field field-mt">Preferred contact channel <span class="opt">(optional)</span></label>
-        <div class="chips" id="channels">
-          <div class="chip" data-ch="Email">Email</div>
-          <div class="chip" data-ch="WhatsApp">WhatsApp</div>
-          <div class="chip" data-ch="Phone call">Phone call</div>
-          <div class="chip" data-ch="Zalo">Zalo</div>
-          <div class="chip" data-ch="Telegram">Telegram</div>
+        <div>
+          <label class="field">Phone Number <span class="req">*</span></label>
+          <div class="phone">
+            <span class="cc">🇻🇳 +84</span>
+            <input class="control" id="phone" placeholder="Phone number" inputmode="numeric">
+          </div>
+          <div class="err-msg" id="err-phone">Please enter your phone number.</div>
         </div>
+      </div>
 
-        <p class="legal">By submitting this you agree to our <a href="#">Privacy Policy</a>.</p>
-        <button class="btn btn-primary btn-block" id="s1next">Next
+      <label class="field field-mt">Communication Channel</label>
+      <select class="control" id="channel">
+        <option value="">Please select</option>
+        <option value="Email">Email</option>
+        <option value="WhatsApp">WhatsApp</option>
+        <option value="Phone call">Phone call</option>
+        <option value="Zalo">Zalo</option>
+        <option value="Telegram">Telegram</option>
+      </select>
+
+      <label class="chk" style="margin-top:20px"><input type="checkbox" id="agreeUpdates" checked><span>I agree to receive updates and support via Email/WhatsApp.</span></label>
+      <p class="legal" style="text-align:left;margin-top:14px">We respect your privacy. You can unsubscribe at any time by email "Unsubscribe".<br>By clicking button below, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</p>
+
+      <div style="display:flex;justify-content:flex-end;margin-top:20px">
+        <button class="btn btn-primary" id="s1next">Continue
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
         </button>
       </div>
     </section>
 
-    <!-- STEP 2: Plan + company -->
+    <!-- STEP 2: Company info -->
     <section class="panel hidden" id="step2">
-      <p class="eyebrow">Plan &amp; company</p>
-      <h2 class="h-section">Select a plan</h2>
-      <p class="sub">Choose a service duration. Longer terms save more.</p>
-      <div class="plans" id="planGrid"></div>
-      <div class="err-msg" id="err-plan">Please choose a plan.</div>
-
-      <div class="block">
-        <div class="block-title">Company information</div>
-        <div class="row2">
-          <div>
-            <label class="field">Company Name <span class="req">*</span></label>
-            <input class="control" id="company" placeholder="e.g. Horizon Ventures Limited">
-            <div class="err-msg" id="err-company">Please enter your company name.</div>
-          </div>
-          <div>
-            <label class="field">Company Number <span class="opt">(if registered)</span></label>
-            <input class="control" id="cnumber" placeholder="Registration number">
-            <label class="chk"><input type="checkbox" id="notinc"><span>My company isn’t incorporated yet</span></label>
-          </div>
+      <div class="block-title" style="font-size:18px;margin-bottom:16px">Company Information</div>
+      <div class="row2">
+        <div>
+          <label class="field">Company Name <span class="req">*</span></label>
+          <input class="control" id="company" placeholder="e.g. Horizon Ventures Limited">
+          <div class="err-msg" id="err-company">Please enter your company name.</div>
         </div>
-        <div class="field-mt">
-          <label class="field">Business Activity <span class="opt">(optional)</span></label>
-          <input class="control" id="activity" placeholder="e.g. IT consulting, e-commerce, trading">
+        <div>
+          <label class="field">Company Number <span class="req">*</span></label>
+          <input class="control" id="cnumber" placeholder="Registration number">
+          <div class="err-msg" id="err-cnumber">Please enter your company number.</div>
         </div>
+      </div>
+      <div class="field-mt">
+        <label class="field">Country <span class="req">*</span></label>
+        <select class="control" id="compCountry">
+          <option>Hong Kong</option>
+          <option>Singapore</option>
+        </select>
       </div>
 
       <div class="actions">
         <button class="btn btn-ghost" id="s2back">Back</button>
-        <button class="btn btn-primary" id="s2next">Continue to payment</button>
       </div>
     </section>
 
@@ -274,10 +281,7 @@ label.field{display:block;font-size:14px;font-weight:600;color:#344054;margin:0 
         <div class="rev"><span>Email</span><b id="rvEmail">—</b></div>
       </div>
       <div class="rev-div"></div>
-      <div class="rev-grid">
-        <div class="rev"><span>Business Activity</span><b id="rvAct">—</b></div>
-        <div class="rev"><span>Term</span><b id="rvTerm">—</b></div>
-      </div>
+      <div class="rev"><span>Company Number</span><b id="rvAct">—</b></div>
     </section>
 
     <section class="panel hidden" id="step3b">
@@ -389,66 +393,65 @@ label.field{display:block;font-size:14px;font-weight:600;color:#344054;margin:0 
     {t:'6 Months',  price:1134, pm:189, best:'', save:'Save 5%'},
     {t:'12 Months', price:2148, pm:179, best:'★ RECOMMENDED', save:'Save 10%'}
   ];
-  var state = { jur:'', dur:DUR[2], channels:[], pm:'card', step:1 };
+  var state = { jur:'', dur:DUR[0], channel:'', pm:'card', step:1 };
 
   /* STEP 1 */
-  document.querySelectorAll('#channels .chip').forEach(function(el){
-    el.addEventListener('click', function(){
-      el.classList.toggle('sel');
-      state.channels = Array.prototype.map.call(document.querySelectorAll('#channels .chip.sel'), function(x){return x.dataset.ch;});
-    });
+  function renderPkgOptions(){
+    var place = state.jur || 'Virtual Office';
+    var prevIdx = DUR.indexOf(state.dur);
+    $('pkg').innerHTML = DUR.map(function(d,i){
+      return '<option value="'+i+'">'+place+' - '+d.t.toLowerCase()+'</option>';
+    }).join('');
+    $('pkg').selectedIndex = prevIdx<0 ? 0 : prevIdx;
+    state.dur = DUR[$('pkg').selectedIndex];
+  }
+  $('pkg').addEventListener('change', function(){
+    state.dur = DUR[this.selectedIndex]; $('err-pkg').classList.remove('show'); updateSummary();
   });
-  $('jur').addEventListener('change', function(){ state.jur=this.value; if(this.value) $('err-jur').classList.remove('show'); updateSummary(); });
+  $('channel').addEventListener('change', function(){ state.channel = this.value; });
+  $('jur').addEventListener('change', function(){ state.jur=this.value; if(this.value) $('err-jur').classList.remove('show'); renderPkgOptions(); updateSummary(); });
   $('s1next').addEventListener('click', function(){
     var ok=true;
+    $('err-fullName').classList.remove('show'); $('fullName').classList.remove('err');
     $('err-email').classList.remove('show'); $('email').classList.remove('err');
     $('err-phone').classList.remove('show'); $('phone').classList.remove('err');
     $('err-jur').classList.remove('show'); $('jur').classList.remove('err');
+    $('err-pkg').classList.remove('show'); $('pkg').classList.remove('err');
+    if(!$('fullName').value.trim()){ $('err-fullName').classList.add('show'); $('fullName').classList.add('err'); ok=false; }
     var em=$('email').value.trim();
     if(!em || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){ $('err-email').classList.add('show'); $('email').classList.add('err'); ok=false; }
     if(!$('phone').value.trim()){ $('err-phone').classList.add('show'); $('phone').classList.add('err'); ok=false; }
     if(!$('jur').value){ $('err-jur').classList.add('show'); $('jur').classList.add('err'); ok=false; }
-    if(ok) show(2);
+    if(!$('pkg').value){ $('err-pkg').classList.add('show'); $('pkg').classList.add('err'); ok=false; }
+    if(ok){ $('compCountry').value = state.jur; show(2); }
   });
 
-  /* STEP 2: plans */
-  DUR.forEach(function(d,i){
-    var el=document.createElement('button');
-    el.type='button'; el.className='plan'+(i===2?' sel':''); el.dataset.i=i;
-    el.innerHTML=(d.best?'<span class="ribbon">'+d.best+'</span>':'')+
-      '<div class="term">'+d.t+'</div>'+
-      '<div class="price">'+money(d.price)+'</div>'+
-      '<div class="pm">'+money(d.pm)+' / month</div>'+
-      (d.save?'<span class="save">'+d.save+'</span>':'');
-    el.addEventListener('click', function(){
-      document.querySelectorAll('#planGrid .plan').forEach(function(x){x.classList.remove('sel')});
-      el.classList.add('sel'); state.dur=DUR[i]; $('err-plan').classList.remove('show'); updateSummary();
-    });
-    $('planGrid').appendChild(el);
-  });
-  $('notinc').addEventListener('change', function(){
-    var c=$('cnumber'); c.disabled=this.checked; if(this.checked){ c.value=''; c.placeholder='Not required yet'; } else { c.placeholder='Registration number'; }
-  });
-  $('s2next').addEventListener('click', function(){
-    var ok=true;
-    if(!document.querySelector('#planGrid .plan.sel')){ $('err-plan').classList.add('show'); ok=false; }
-    $('err-company').classList.remove('show'); $('company').classList.remove('err');
-    if(!$('company').value.trim()){ $('err-company').classList.add('show'); $('company').classList.add('err'); ok=false; }
-    if(!ok) return;
-    buildReview(); prefillBilling(); show(3);
-  });
+  /* STEP 2: company */
   $('s2back').addEventListener('click', function(){ show(1); });
 
   function prefillBilling(){
-    if(!$('bCountry').value) $('bCountry').value='Vietnam';
-    var comp=$('company').value.trim();
+    if(!$('bCountry').value) $('bCountry').value = state.jur || 'Vietnam';
+    if(!$('bFirst').value && !$('bLast').value){
+      var parts=$('fullName').value.trim().split(/\s+/);
+      $('bFirst').value = parts.shift() || '';
+      $('bLast').value = parts.join(' ');
+    }
   }
   function buildReview(){
     $('rvJur').textContent  = state.jur || '—';
     $('rvName').textContent = $('company').value.trim() || '—';
     $('rvEmail').textContent= $('email').value.trim() || '—';
-    $('rvAct').textContent  = $('activity').value.trim() || '—';
-    $('rvTerm').textContent = 'Virtual Office · ' + state.dur.t;
+    $('rvAct').textContent  = $('cnumber').value.trim() || '—';
+  }
+  function s2next(){
+    var ok=true;
+    $('err-company').classList.remove('show'); $('company').classList.remove('err');
+    if(!$('company').value.trim()){ $('err-company').classList.add('show'); $('company').classList.add('err'); ok=false; }
+    $('err-cnumber').classList.remove('show'); $('cnumber').classList.remove('err');
+    if(!$('cnumber').value.trim()){ $('err-cnumber').classList.add('show'); $('cnumber').classList.add('err'); ok=false; }
+    if(!ok) return false;
+    buildReview(); prefillBilling(); show(3);
+    return true;
   }
 
   /* STEP 3: payment */
@@ -496,12 +499,12 @@ label.field{display:block;font-size:14px;font-weight:600;color:#344054;margin:0 
     $('gridWrap').style.gridTemplateColumns = showSummary ? '' : '1fr';
     $('wrap').classList.toggle('narrow', step===1 || step===4);
     $('tcWrap').classList.toggle('hidden', step!==3);
-    $('payBtnLabel').textContent = (step===3) ? 'Proceed to Secured Payment' : 'Continue to payment';
+    $('payBtnLabel').textContent = 'Proceed to Secured Payment';
     window.scrollTo({top:0,behavior:'smooth'});
   }
 
   $('payBtn').addEventListener('click', function(){
-    if(state.step===2) $('s2next').click();
+    if(state.step===2) s2next();
     else if(state.step===3) submitOrder();
   });
 
@@ -526,7 +529,7 @@ label.field{display:block;font-size:14px;font-weight:600;color:#344054;margin:0 
   $('restart').addEventListener('click', function(){ location.reload(); });
 
   function buildFinal(){
-    var fn=$('bFirst').value.trim();
+    var fn=$('fullName').value.trim().split(/\s+/)[0] || $('bFirst').value.trim();
     $('okName').textContent = fn || 'there';
     var pmName={card:'Credit / Debit Card',amex:'American Express',apple:'Apple Pay',google:'Google Pay',paypal:'PayPal',wire:'Wire Bank Transfer'}[state.pm];
     var rows=[
@@ -537,11 +540,11 @@ label.field{display:block;font-size:14px;font-weight:600;color:#344054;margin:0 
       ['Amount paid', money(state.dur.price)],
       ['Confirmation to', $('email').value.trim()]
     ];
-    if(state.channels.length) rows.push(['Contact via', state.channels.join(', ')]);
+    if(state.channel) rows.push(['Contact via', state.channel]);
     $('okBox').innerHTML = rows.map(function(r){ return '<div class="brk"><span class="k">'+esc(r[0])+'</span><span class="v">'+esc(r[1])+'</span></div>'; }).join('');
   }
 
-  updateSummary(); renderPay(); show(1);
+  renderPkgOptions(); updateSummary(); renderPay(); show(1);
 })();
 </script>
 </body>
