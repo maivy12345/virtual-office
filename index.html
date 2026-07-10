@@ -284,7 +284,11 @@ label.field{display:block;font-size:14px;font-weight:600;color:#344054;margin:0 
         </div>
       </div>
       <div class="field-mt">
-        <label class="field">Country <span class="req">*</span></label>
+        <label class="field">Business Activity <span class="opt">(optional)</span></label>
+        <input class="control" id="activity" placeholder="e.g. IT consulting, e-commerce, trading">
+      </div>
+      <div class="field-mt">
+        <label class="field">Company Location <span class="req">*</span></label>
         <select class="control" id="compCountry">
           <option value="Anguilla">🇦🇮 Anguilla</option>
           <option value="Bahamas">🇧🇸 Bahamas</option>
@@ -331,7 +335,10 @@ label.field{display:block;font-size:14px;font-weight:600;color:#344054;margin:0 
         <div class="rev"><span>Email</span><b id="rvEmail">—</b></div>
       </div>
       <div class="rev-div"></div>
-      <div class="rev"><span>Company Number</span><b id="rvAct">—</b></div>
+      <div class="rev-grid">
+        <div class="rev"><span>Company Number</span><b id="rvNum">—</b></div>
+        <div class="rev"><span>Business Activity</span><b id="rvAct">—</b></div>
+      </div>
     </section>
 
     <section class="panel hidden" id="step3b">
@@ -491,7 +498,8 @@ label.field{display:block;font-size:14px;font-weight:600;color:#344054;margin:0 
     $('rvJur').textContent  = state.jur || '—';
     $('rvName').textContent = $('company').value.trim() || '—';
     $('rvEmail').textContent= $('email').value.trim() || '—';
-    $('rvAct').textContent  = $('cnumber').value.trim() || '—';
+    $('rvNum').textContent  = $('cnumber').value.trim() || '—';
+    $('rvAct').textContent  = $('activity').value.trim() || '—';
   }
   function s2next(){
     var ok=true;
