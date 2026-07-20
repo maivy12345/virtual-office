@@ -92,9 +92,15 @@ label.field{display:block;font-size:14px;font-weight:600;color:#344054;margin:0 
 /* review */
 .rev-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px 24px}
 @media(max-width:640px){.rev-grid{grid-template-columns:1fr}}
+.rev{position:relative}
 .rev span{display:block;font-size:12px;color:var(--muted);margin-bottom:3px}
-.rev b{font-size:14px;color:var(--ink);font-weight:600;word-break:break-word}
+.rev b{font-size:14px;color:var(--ink);font-weight:600;word-break:break-word;display:block;padding-right:38px}
 .rev-div{height:1px;background:var(--line);margin:16px 0}
+.rev-edit{position:absolute;top:0;right:0;padding:0;border:0;background:none;cursor:pointer;font:inherit;font-size:12px;font-weight:700;color:var(--red);opacity:.75;transition:.2s}
+.rev-edit:hover{opacity:1;text-decoration:underline}
+.rev-edit:focus-visible{outline:2px solid var(--red);outline-offset:2px;border-radius:3px}
+@keyframes flash{0%,100%{box-shadow:none}20%,60%{box-shadow:0 0 0 4px var(--red-soft)}}
+.control.flash{animation:flash 1.2s ease;border-color:var(--red)}
 
 /* payment */
 .pm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
@@ -331,16 +337,16 @@ label.field{display:block;font-size:14px;font-weight:600;color:#344054;margin:0 
     <section class="panel hidden" id="step3">
       <div class="block-title" style="font-size:18px;margin-bottom:16px">Review Information</div>
       <div class="rev-grid">
-        <div class="rev"><span>Country</span><b id="rvJur">—</b></div>
+        <div class="rev"><span>Country</span><b id="rvJur">—</b><button type="button" class="rev-edit" data-step="1" data-focus="jur">Edit</button></div>
         <div class="rev"><span>Company Type</span><b>Virtual Office</b></div>
-        <div class="rev"><span>Company Name</span><b id="rvName">—</b></div>
-        <div class="rev"><span>Email</span><b id="rvEmail">—</b></div>
+        <div class="rev"><span>Company Name</span><b id="rvName">—</b><button type="button" class="rev-edit" data-step="2" data-focus="company">Edit</button></div>
+        <div class="rev"><span>Email</span><b id="rvEmail">—</b><button type="button" class="rev-edit" data-step="1" data-focus="email">Edit</button></div>
       </div>
       <div class="rev-div"></div>
       <div class="rev-grid">
-        <div class="rev"><span>Company Number</span><b id="rvNum">—</b></div>
-        <div class="rev"><span>Business Activity</span><b id="rvAct">—</b></div>
-        <div class="rev"><span>Specific Industry</span><b id="rvInd">—</b></div>
+        <div class="rev"><span>Company Number</span><b id="rvNum">—</b><button type="button" class="rev-edit" data-step="2" data-focus="cnumber">Edit</button></div>
+        <div class="rev"><span>Business Activity</span><b id="rvAct">—</b><button type="button" class="rev-edit" data-step="2" data-focus="activity">Edit</button></div>
+        <div class="rev"><span>Specific Industry</span><b id="rvInd">—</b><button type="button" class="rev-edit" data-step="2" data-focus="industry" data-fallback="activity">Edit</button></div>
       </div>
     </section>
 
@@ -599,6 +605,23 @@ label.field{display:block;font-size:14px;font-weight:600;color:#344054;margin:0 
     $(id).addEventListener('click', function(){
       if(state.step===4 || target>=state.step) return;
       show(target);
+    });
+  });
+
+  /* "Edit" on a Review row jumps back to that field and highlights it */
+  document.querySelectorAll('.rev-edit').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      show(+btn.dataset.step);
+      var el = $(btn.dataset.focus);
+      /* Specific Industry is hidden until an activity is picked — aim there instead */
+      if(el && el.closest('.hidden') && btn.dataset.fallback) el = $(btn.dataset.fallback);
+      if(!el) return;
+      setTimeout(function(){
+        el.scrollIntoView({block:'center',behavior:'smooth'});
+        el.focus({preventScroll:true});
+        el.classList.add('flash');
+        setTimeout(function(){ el.classList.remove('flash'); }, 1200);
+      }, 400);
     });
   });
 
