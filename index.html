@@ -31,6 +31,9 @@ a{color:inherit}
 .step.done .step-num{background:var(--red);border-color:var(--red);color:#fff}
 .step.active .step-num{background:#fff;border-color:var(--red);color:var(--red);box-shadow:0 0 0 4px var(--red-soft)}
 .step.done .step-label,.step.active .step-label{color:#111}
+.step.clickable{cursor:pointer}
+.step.clickable:hover .step-num{box-shadow:0 0 0 4px var(--red-soft)}
+.step.clickable:hover .step-label{text-decoration:underline}
 .step-line{flex:1;height:2px;background:#e9eaee;min-width:26px;margin:0 6px;transition:.25s}
 .step-line.on{background:var(--red)}
 .whats{display:flex;align-items:center;gap:10px;flex-shrink:0}
@@ -216,41 +219,15 @@ label.field{display:block;font-size:14px;font-weight:600;color:#344054;margin:0 
         <div class="trust-item"><span class="trust-ic blue"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2f6fed" stroke-width="2.2"><circle cx="9" cy="8" r="3"/><path d="M2 20c0-3.3 3.1-6 7-6s7 2.7 7 6"/><path d="M16 4.2a3 3 0 0 1 0 5.8"/><path d="M22 20c0-2.8-2.2-5.1-5-5.8"/></svg></span>1-on-1 Expert Consultation</div>
       </div>
 
-      <label class="field">Type of Service <span class="req">*</span></label>
-      <select class="control" id="serviceType" disabled><option>Virtual Office</option></select>
-
-      <label class="field field-mt">Jurisdiction <span class="req">*</span></label>
+      <label class="field">Country <span class="req">*</span></label>
       <select class="control" id="jur">
-        <option value="">Select a jurisdiction</option>
-        <option value="Anguilla">🇦🇮 Anguilla</option>
-        <option value="Bahamas">🇧🇸 Bahamas</option>
-        <option value="Belize">🇧🇿 Belize</option>
-        <option value="Cayman Islands">🇰🇾 Cayman Islands</option>
-        <option value="Cyprus">🇨🇾 Cyprus</option>
-        <option value="Gibraltar">🇬🇮 Gibraltar</option>
-        <option value="Hong Kong">🇭🇰 Hong Kong</option>
-        <option value="Labuan">🇲🇾 Labuan</option>
-        <option value="Liechtenstein">🇱🇮 Liechtenstein</option>
-        <option value="Luxembourg">🇱🇺 Luxembourg</option>
-        <option value="Malta">🇲🇹 Malta</option>
-        <option value="Marshall Islands">🇲🇭 Marshall Islands</option>
-        <option value="Netherlands, Kingdom of the">🇳🇱 Netherlands, Kingdom of the</option>
-        <option value="Panama">🇵🇦 Panama</option>
-        <option value="Saint Kitts and Nevis">🇰🇳 Saint Kitts and Nevis</option>
-        <option value="Saint Lucia">🇱🇨 Saint Lucia</option>
-        <option value="Saint Vincent and the Grenadines">🇻🇨 Saint Vincent and the Grenadines</option>
-        <option value="Samoa">🇼🇸 Samoa</option>
-        <option value="Seychelles">🇸🇨 Seychelles</option>
-        <option value="Singapore">🇸🇬 Singapore</option>
-        <option value="Switzerland">🇨🇭 Switzerland</option>
-        <option value="United Arab Emirates">🇦🇪 United Arab Emirates</option>
-        <option value="United Kingdom">🇬🇧 United Kingdom</option>
-        <option value="United States of America">🇺🇸 United States of America</option>
-        <option value="Vanuatu">🇻🇺 Vanuatu</option>
+        <option value="">Select a country</option>
         <option value="Vietnam">🇻🇳 Vietnam</option>
-        <option value="Virgin Islands (British)">🇻🇬 Virgin Islands (British)</option>
+        <option value="Singapore">🇸🇬 Singapore</option>
+        <option value="Hong Kong">🇭🇰 Hong Kong</option>
+        <option value="United States of America">🇺🇸 United States of America</option>
       </select>
-      <div class="err-msg" id="err-jur">Please select a jurisdiction.</div>
+      <div class="err-msg" id="err-jur">Please select a country.</div>
 
       <label class="field field-mt">Choose Package Fees <span class="req">*</span></label>
       <select class="control" id="pkg"></select>
@@ -314,38 +291,34 @@ label.field{display:block;font-size:14px;font-weight:600;color:#344054;margin:0 
       </div>
       <div class="field-mt">
         <label class="field">Business Activity <span class="opt">(optional)</span></label>
-        <input class="control" id="activity" placeholder="e.g. IT consulting, e-commerce, trading">
+        <select class="control" id="activity">
+          <option value="">Please select</option>
+          <option>Consulting, IT, or business services</option>
+          <option>Design, marketing or communication</option>
+          <option>Travel, accommodation, or transport</option>
+          <option>Entertainment, arts or photography</option>
+          <option>Health, sports or personal care</option>
+          <option>Food, beverages, or tobacco</option>
+          <option>Retail, eCommerce, wholesale or manufacturing</option>
+          <option>Financial services, products, or holding companies</option>
+          <option>Real estate or construction</option>
+          <option>Education or learning</option>
+          <option>Charity or not-for-profit</option>
+          <option>Utilities and public or government services</option>
+        </select>
+      </div>
+      <div class="field-mt hidden" id="industryWrap">
+        <label class="field">Specific Industry <span class="opt">(optional)</span></label>
+        <select class="control" id="industry"><option value="">Please select</option></select>
+        <div class="hint">Choosing accurately helps us prepare the right address package and compliance documents from day one.</div>
       </div>
       <div class="field-mt">
         <label class="field">Company Location <span class="req">*</span></label>
         <select class="control" id="compCountry">
-          <option value="Anguilla">🇦🇮 Anguilla</option>
-          <option value="Bahamas">🇧🇸 Bahamas</option>
-          <option value="Belize">🇧🇿 Belize</option>
-          <option value="Cayman Islands">🇰🇾 Cayman Islands</option>
-          <option value="Cyprus">🇨🇾 Cyprus</option>
-          <option value="Gibraltar">🇬🇮 Gibraltar</option>
-          <option value="Hong Kong">🇭🇰 Hong Kong</option>
-          <option value="Labuan">🇲🇾 Labuan</option>
-          <option value="Liechtenstein">🇱🇮 Liechtenstein</option>
-          <option value="Luxembourg">🇱🇺 Luxembourg</option>
-          <option value="Malta">🇲🇹 Malta</option>
-          <option value="Marshall Islands">🇲🇭 Marshall Islands</option>
-          <option value="Netherlands, Kingdom of the">🇳🇱 Netherlands, Kingdom of the</option>
-          <option value="Panama">🇵🇦 Panama</option>
-          <option value="Saint Kitts and Nevis">🇰🇳 Saint Kitts and Nevis</option>
-          <option value="Saint Lucia">🇱🇨 Saint Lucia</option>
-          <option value="Saint Vincent and the Grenadines">🇻🇨 Saint Vincent and the Grenadines</option>
-          <option value="Samoa">🇼🇸 Samoa</option>
-          <option value="Seychelles">🇸🇨 Seychelles</option>
-          <option value="Singapore">🇸🇬 Singapore</option>
-          <option value="Switzerland">🇨🇭 Switzerland</option>
-          <option value="United Arab Emirates">🇦🇪 United Arab Emirates</option>
-          <option value="United Kingdom">🇬🇧 United Kingdom</option>
-          <option value="United States of America">🇺🇸 United States of America</option>
-          <option value="Vanuatu">🇻🇺 Vanuatu</option>
           <option value="Vietnam">🇻🇳 Vietnam</option>
-          <option value="Virgin Islands (British)">🇻🇬 Virgin Islands (British)</option>
+          <option value="Singapore">🇸🇬 Singapore</option>
+          <option value="Hong Kong">🇭🇰 Hong Kong</option>
+          <option value="United States of America">🇺🇸 United States of America</option>
         </select>
       </div>
 
@@ -358,7 +331,7 @@ label.field{display:block;font-size:14px;font-weight:600;color:#344054;margin:0 
     <section class="panel hidden" id="step3">
       <div class="block-title" style="font-size:18px;margin-bottom:16px">Review Information</div>
       <div class="rev-grid">
-        <div class="rev"><span>Company Jurisdiction</span><b id="rvJur">—</b></div>
+        <div class="rev"><span>Country</span><b id="rvJur">—</b></div>
         <div class="rev"><span>Company Type</span><b>Virtual Office</b></div>
         <div class="rev"><span>Company Name</span><b id="rvName">—</b></div>
         <div class="rev"><span>Email</span><b id="rvEmail">—</b></div>
@@ -367,6 +340,7 @@ label.field{display:block;font-size:14px;font-weight:600;color:#344054;margin:0 
       <div class="rev-grid">
         <div class="rev"><span>Company Number</span><b id="rvNum">—</b></div>
         <div class="rev"><span>Business Activity</span><b id="rvAct">—</b></div>
+        <div class="rev"><span>Specific Industry</span><b id="rvInd">—</b></div>
       </div>
     </section>
 
@@ -523,12 +497,36 @@ label.field{display:block;font-size:14px;font-weight:600;color:#344054;margin:0 
       $('bLast').value = parts.join(' ');
     }
   }
+  /* Business Activity -> Specific Industry (cascading) */
+  var INDUSTRY = {
+    'Consulting, IT, or business services':['Advertising and marketing','Design','Architecture or interior design','IT development','Software as a service','IT hosting services','IT consulting/services - other','Scientific or technical consulting','Management consulting and coaching','Employment placement and recruitment services','Cleaning, repair and maintenance services','Financial (including tax, accounting, audit)','Legal services','Translation or language services','Company establishment/formation services','Freelance platform','Other services','Other consulting'],
+    'Design, marketing or communication':['Advertising and marketing','Design','Architecture or interior design','Audio and video','Photography','Print and online media','Translation or language services','Telecommunications services'],
+    'Travel, accommodation, or transport':['Travel agencies','Tour operators','Accommodation or hotels','Other travel or tour activities','Passenger transport or rentals','Freight transport','Rideshare and transport share services','Transport - other'],
+    'Entertainment, arts or photography':['Audio and video','Events and entertainment','Photography','Books, magazines, blogs, news','Video gaming','Arts - fine art sales, auctions or procurement','Arts - other arts and crafts products or services','Performing arts','Telecommunications services'],
+    'Health, sports or personal care':['Beauty products and services','Vitamins and dietary supplements','Fitness or sports services','Medical or veterinary services','Dental services','Medical equipment','Elderly or other care home','Nursing or other care services','Pharmaceuticals','Pharmacy'],
+    'Food, beverages, or tobacco':['Food manufacturing and retail','Restaurants and catering','Vitamins and dietary supplements','Alcohol','Soft drinks'],
+    'Retail, eCommerce, wholesale or manufacturing':['Clothing and accessories','Beauty products and services','Home and garden','Toys, games and musical instruments','Electronics and electrical products','Vehicle sales','Vehicle accessories, spare parts, manufacturing','Machinery and equipment','Sports equipment (excl. weapons)','Arts - fine art sales, auctions or procurement','Arts - other arts and crafts products or services','Jewellery - fine jewellery, watches','Jewellery - fashion jewellery','Precious stones, diamonds, or metals',"Manufacturing (I don't fall in a category listed)",'Farming, seeds, plants','Pets or pet supplies','Chemicals','Selling products on behalf of others (including auction, online marketplace)','Other retail or wholesale (not listed above)'],
+    'Financial services, products, or holding companies':['Financial (including tax, accounting, audit)','Investments','Holding company','Insurance','Crowdfunding and peer lending','Other financial services'],
+    'Real estate or construction':['Real estate sale, purchase, and management','Construction','Architecture or interior design','Real estate development'],
+    'Education or learning':['Online learning','Teaching and tutoring','Schools and universities'],
+    'Charity or not-for-profit':['All activities'],
+    'Utilities and public or government services':['Utility services and providers','Cleaning, repair and maintenance services','Government or political organisation','Telecommunications services','Other, not listed above']
+  };
+  function renderIndustry(){
+    var list = INDUSTRY[$('activity').value] || [];
+    $('industry').innerHTML = '<option value="">Please select</option>' +
+      list.map(function(x){ return '<option>'+x+'</option>'; }).join('');
+    $('industryWrap').classList.toggle('hidden', list.length===0);
+  }
+  $('activity').addEventListener('change', renderIndustry);
+
   function buildReview(){
     $('rvJur').textContent  = state.jur || '—';
     $('rvName').textContent = $('company').value.trim() || '—';
     $('rvEmail').textContent= $('email').value.trim() || '—';
     $('rvNum').textContent  = $('cnumber').value.trim() || '—';
-    $('rvAct').textContent  = $('activity').value.trim() || '—';
+    $('rvAct').textContent  = $('activity').value || '—';
+    $('rvInd').textContent  = $('industry').value || '—';
   }
   function s2next(){
     var ok=true;
@@ -577,7 +575,12 @@ label.field{display:block;font-size:14px;font-weight:600;color:#344054;margin:0 
     $('step4').classList.toggle('hidden', step!==4);
 
     var dots=[$('dot1'),$('dot2'),$('dot3')];
-    dots.forEach(function(d,i){ d.classList.remove('active','done'); var n=i+1; if(n<step) d.classList.add('done'); else if(n===step) d.classList.add('active'); });
+    dots.forEach(function(d,i){
+      d.classList.remove('active','done','clickable'); var n=i+1;
+      if(n<step) d.classList.add('done'); else if(n===step) d.classList.add('active');
+      /* only completed steps are clickable, and never after the order is placed */
+      if(n<step && step!==4) d.classList.add('clickable');
+    });
     $('line1').classList.toggle('on', step>=2);
     $('line2').classList.toggle('on', step>=3);
 
@@ -589,6 +592,15 @@ label.field{display:block;font-size:14px;font-weight:600;color:#344054;margin:0 
     $('payBtnLabel').textContent = 'Proceed to Secured Payment';
     window.scrollTo({top:0,behavior:'smooth'});
   }
+
+  /* Click a completed step in the header to go back to it */
+  ['dot1','dot2','dot3'].forEach(function(id,i){
+    var target=i+1;
+    $(id).addEventListener('click', function(){
+      if(state.step===4 || target>=state.step) return;
+      show(target);
+    });
+  });
 
   $('payBtn').addEventListener('click', function(){
     if(state.step===2) s2next();
@@ -621,7 +633,7 @@ label.field{display:block;font-size:14px;font-weight:600;color:#344054;margin:0 
     var pmName={card:'Credit / Debit Card',amex:'American Express',apple:'Apple Pay',google:'Google Pay',paypal:'PayPal',wire:'Wire Bank Transfer'}[state.pm];
     var rows=[
       ['Company', $('company').value.trim()||'—'],
-      ['Jurisdiction', state.jur||'—'],
+      ['Country', state.jur||'—'],
       ['Term', state.dur.t],
       ['Payment method', pmName],
       ['Amount paid', money(state.dur.price)],
