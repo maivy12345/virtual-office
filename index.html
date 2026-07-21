@@ -338,15 +338,22 @@ label.field{display:block;font-size:14px;font-weight:600;color:#344054;margin:0 
       <div class="block-title" style="font-size:18px;margin-bottom:16px">Review Information</div>
       <div class="rev-grid">
         <div class="rev"><span>Country</span><b id="rvJur">—</b><button type="button" class="rev-edit" data-step="1" data-focus="jur">Edit</button></div>
-        <div class="rev"><span>Company Jurisdiction</span><b id="rvComp">—</b><button type="button" class="rev-edit" data-step="2" data-focus="compCountry">Edit</button></div>
-        <div class="rev"><span>Company Name</span><b id="rvName">—</b><button type="button" class="rev-edit" data-step="2" data-focus="company">Edit</button></div>
-        <div class="rev"><span>Email</span><b id="rvEmail">—</b><button type="button" class="rev-edit" data-step="1" data-focus="email">Edit</button></div>
+        <div class="rev"><span>Package</span><b id="rvPkg">—</b><button type="button" class="rev-edit" data-step="1" data-focus="pkg">Edit</button></div>
       </div>
       <div class="rev-div"></div>
       <div class="rev-grid">
+        <div class="rev"><span>Company Name</span><b id="rvName">—</b><button type="button" class="rev-edit" data-step="2" data-focus="company">Edit</button></div>
         <div class="rev"><span>Company Number</span><b id="rvNum">—</b><button type="button" class="rev-edit" data-step="2" data-focus="cnumber">Edit</button></div>
+        <div class="rev"><span>Company Jurisdiction</span><b id="rvComp">—</b><button type="button" class="rev-edit" data-step="2" data-focus="compCountry">Edit</button></div>
         <div class="rev"><span>Business Activity</span><b id="rvAct">—</b><button type="button" class="rev-edit" data-step="2" data-focus="activity">Edit</button></div>
         <div class="rev"><span>Specific Industry</span><b id="rvInd">—</b><button type="button" class="rev-edit" data-step="2" data-focus="industry" data-fallback="activity">Edit</button></div>
+      </div>
+      <div class="rev-div"></div>
+      <div class="rev-grid">
+        <div class="rev"><span>Full Name</span><b id="rvFull">—</b><button type="button" class="rev-edit" data-step="1" data-focus="fullName">Edit</button></div>
+        <div class="rev"><span>Email</span><b id="rvEmail">—</b><button type="button" class="rev-edit" data-step="1" data-focus="email">Edit</button></div>
+        <div class="rev"><span>Phone Number</span><b id="rvPhone">—</b><button type="button" class="rev-edit" data-step="1" data-focus="phone">Edit</button></div>
+        <div class="rev"><span>Communication Channel</span><b id="rvChan">—</b><button type="button" class="rev-edit" data-step="1" data-focus="channel">Edit</button></div>
       </div>
     </section>
 
@@ -534,6 +541,12 @@ label.field{display:block;font-size:14px;font-weight:600;color:#344054;margin:0 
     $('rvNum').textContent  = $('cnumber').value.trim() || '—';
     $('rvAct').textContent  = $('activity').value || '—';
     $('rvInd').textContent  = $('industry').value || '—';
+    $('rvPkg').textContent  = state.dur.t + ' — ' + money(state.dur.price);
+    $('rvFull').textContent = $('fullName').value.trim() || '—';
+    /* the +84 prefix is fixed next to the input, so drop the trunk 0 */
+    var ph = $('phone').value.trim().replace(/^0+/,'');
+    $('rvPhone').textContent = ph ? '+84 ' + ph : '—';
+    $('rvChan').textContent = $('channel').value || '—';
   }
   function s2next(){
     var ok=true;
