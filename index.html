@@ -94,10 +94,12 @@ label.field{display:block;font-size:14px;font-weight:600;color:#344054;margin:0 
 @media(max-width:640px){.rev-grid{grid-template-columns:1fr}}
 .rev{position:relative}
 .rev span{display:block;font-size:12px;color:var(--muted);margin-bottom:3px}
-.rev b{font-size:14px;color:var(--ink);font-weight:600;word-break:break-word;display:block;padding-right:38px}
-.rev-div{height:1px;background:var(--line);margin:16px 0}
-.rev-edit{position:absolute;top:0;right:0;padding:0;border:0;background:none;cursor:pointer;font:inherit;font-size:12px;font-weight:700;color:var(--red);opacity:.75;transition:.2s}
-.rev-edit:hover{opacity:1;text-decoration:underline}
+.rev b{font-size:14px;color:var(--ink);font-weight:600;word-break:break-word;display:block}
+.rev-sec+.rev-sec{border-top:1px solid var(--line);margin-top:20px;padding-top:20px}
+.rev-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.rev-title{font-size:15px;font-weight:700;color:var(--ink)}
+.rev-edit{display:inline-flex;align-items:center;gap:5px;padding:0;border:0;background:none;cursor:pointer;font:inherit;font-size:13px;font-weight:600;color:var(--red);transition:.2s}
+.rev-edit:hover{text-decoration:underline}
 .rev-edit:focus-visible{outline:2px solid var(--red);outline-offset:2px;border-radius:3px}
 @keyframes flash{0%,100%{box-shadow:none}20%,60%{box-shadow:0 0 0 4px var(--red-soft)}}
 .control.flash{animation:flash 1.2s ease;border-color:var(--red)}
@@ -336,24 +338,43 @@ label.field{display:block;font-size:14px;font-weight:600;color:#344054;margin:0 
     <!-- STEP 3: Review + Payment -->
     <section class="panel hidden" id="step3">
       <div class="block-title" style="font-size:18px;margin-bottom:16px">Review Information</div>
-      <div class="rev-grid">
-        <div class="rev"><span>Country</span><b id="rvJur">—</b><button type="button" class="rev-edit" data-step="1" data-focus="jur">Edit</button></div>
-        <div class="rev"><span>Package</span><b id="rvPkg">—</b><button type="button" class="rev-edit" data-step="1" data-focus="pkg">Edit</button></div>
+      <div class="rev-sec">
+        <div class="rev-head">
+          <div class="rev-title">Service Details</div>
+          <button type="button" class="rev-edit" data-step="1" data-focus="jur"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>Edit</button>
+        </div>
+        <div class="rev-grid">
+          <div class="rev"><span>Service</span><b>Virtual Office</b></div>
+          <div class="rev"><span>Country</span><b id="rvJur">—</b></div>
+          <div class="rev"><span>Package</span><b id="rvPkg">—</b></div>
+        </div>
       </div>
-      <div class="rev-div"></div>
-      <div class="rev-grid">
-        <div class="rev"><span>Company Name</span><b id="rvName">—</b><button type="button" class="rev-edit" data-step="2" data-focus="company">Edit</button></div>
-        <div class="rev"><span>Company Number</span><b id="rvNum">—</b><button type="button" class="rev-edit" data-step="2" data-focus="cnumber">Edit</button></div>
-        <div class="rev"><span>Company Jurisdiction</span><b id="rvComp">—</b><button type="button" class="rev-edit" data-step="2" data-focus="compCountry">Edit</button></div>
-        <div class="rev"><span>Business Activity</span><b id="rvAct">—</b><button type="button" class="rev-edit" data-step="2" data-focus="activity">Edit</button></div>
-        <div class="rev"><span>Specific Industry</span><b id="rvInd">—</b><button type="button" class="rev-edit" data-step="2" data-focus="industry" data-fallback="activity">Edit</button></div>
+
+      <div class="rev-sec">
+        <div class="rev-head">
+          <div class="rev-title">Contact Information</div>
+          <button type="button" class="rev-edit" data-step="1" data-focus="fullName"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>Edit</button>
+        </div>
+        <div class="rev-grid">
+          <div class="rev"><span>Full Name</span><b id="rvFull">—</b></div>
+          <div class="rev"><span>Email</span><b id="rvEmail">—</b></div>
+          <div class="rev"><span>Phone</span><b id="rvPhone">—</b></div>
+          <div class="rev"><span>Communication Channel</span><b id="rvChan">—</b></div>
+        </div>
       </div>
-      <div class="rev-div"></div>
-      <div class="rev-grid">
-        <div class="rev"><span>Full Name</span><b id="rvFull">—</b><button type="button" class="rev-edit" data-step="1" data-focus="fullName">Edit</button></div>
-        <div class="rev"><span>Email</span><b id="rvEmail">—</b><button type="button" class="rev-edit" data-step="1" data-focus="email">Edit</button></div>
-        <div class="rev"><span>Phone Number</span><b id="rvPhone">—</b><button type="button" class="rev-edit" data-step="1" data-focus="phone">Edit</button></div>
-        <div class="rev"><span>Communication Channel</span><b id="rvChan">—</b><button type="button" class="rev-edit" data-step="1" data-focus="channel">Edit</button></div>
+
+      <div class="rev-sec">
+        <div class="rev-head">
+          <div class="rev-title">Company Information</div>
+          <button type="button" class="rev-edit" data-step="2" data-focus="company"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>Edit</button>
+        </div>
+        <div class="rev-grid">
+          <div class="rev"><span>Company Name</span><b id="rvName">—</b></div>
+          <div class="rev"><span>Company Number</span><b id="rvNum">—</b></div>
+          <div class="rev"><span>Company Jurisdiction</span><b id="rvComp">—</b></div>
+          <div class="rev"><span>Business Activity</span><b id="rvAct">—</b></div>
+          <div class="rev"><span>Specific Industry</span><b id="rvInd">—</b></div>
+        </div>
       </div>
     </section>
 
